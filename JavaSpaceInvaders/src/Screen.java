@@ -32,8 +32,24 @@ public class Screen extends JPanel implements Runnable{
     @Override
     public void run() {
         while(gameThread!=null){
-            System.out.println("Hello!");
+            updater();
+            repaint();
         }
+    }
+
+    public void updater(){
+
+    }
+
+    public void paintComponent(Graphics g){
+        super.paintComponent(g);
+
+        Graphics2D g2=(Graphics2D)g;
+
+        g2.setColor(Color.white);
+
+        g2.fillRect(100,100,20,20);
+
     }
 
 
