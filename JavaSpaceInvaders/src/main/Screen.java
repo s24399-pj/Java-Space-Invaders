@@ -1,3 +1,6 @@
+package main;
+
+import entity.Player;
 
 import javax.swing.*;
 import java.awt.*;
@@ -16,12 +19,11 @@ public class Screen extends JPanel implements Runnable{
     Thread gameThread;
 
     KeyHandler keyHand=new KeyHandler();
+    Player player=new Player(this,keyHand);
+
 
     int FramesPerSecond=60;
 
-    int playerPositionX=100;
-    int playerPositionY=100;
-    int playerSpeed=4;
 
     public Screen(){
         this.setPreferredSize(new Dimension(screenWidth,screenHeight));
@@ -66,18 +68,7 @@ public class Screen extends JPanel implements Runnable{
     }
 
     public void updater(){
-        if (keyHand.upActivated==true) {
-            playerPositionY-=playerSpeed;
-        }
-        else if (keyHand.downActivated==true){
-            playerPositionY+=playerSpeed;
-        }
-        else if (keyHand.leftActivated==true){
-            playerPositionX-=playerSpeed;
-        }
-        else if (keyHand.rightActivated==true){
-            playerPositionX+=playerSpeed;
-        }
+        player.updater();
     }
 
     public void paintComponent(Graphics g){
@@ -85,9 +76,7 @@ public class Screen extends JPanel implements Runnable{
 
         Graphics2D g2=(Graphics2D)g;
 
-        g2.setColor(Color.white);
-
-        g2.fillRect(playerPositionX,playerPositionY,tileSize,tileSize);
+        player.draw(g2,tileSize);
 
         g2.dispose();
 
