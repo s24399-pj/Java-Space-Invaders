@@ -22,18 +22,26 @@ public class Player extends Entity{
         speed=4;
     }
 
-    public void updater(){
+    public void updater(int screenWidth, int screenHeight, int tileSize){
         if (keyHand.upActivated==true) {
-            y-=speed;
+            if(y-speed>0){
+                y-=speed;
+            }
         }
         else if (keyHand.downActivated==true){
-            y+=speed;
+            if(y+speed<screenHeight-tileSize) {
+                y += speed;
+            }
         }
         else if (keyHand.leftActivated==true){
-            x-=speed;
+            if(x-speed>0) {
+                x -= speed;
+            }
         }
         else if (keyHand.rightActivated==true){
-            x+=speed;
+            if(x+speed<screenWidth-tileSize) {
+                x += speed;
+            }
         }
     }
 

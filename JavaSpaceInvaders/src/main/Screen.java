@@ -13,8 +13,8 @@ public class Screen extends JPanel implements Runnable{
     final int tileSize=originalTileSize*scale;
     final int maxScreenCol=16;
     final int maxScreenRow=12;
-    final int screenWidth=tileSize*maxScreenCol;
-    final int screenHeight=tileSize*maxScreenRow;
+    public final int screenWidth=tileSize*maxScreenCol;
+    public final int screenHeight=tileSize*maxScreenRow;
 
     Thread gameThread;
 
@@ -68,7 +68,7 @@ public class Screen extends JPanel implements Runnable{
     }
 
     public void updater(){
-        player.updater();
+        player.updater(screenWidth,screenHeight,tileSize);
     }
 
     public void paintComponent(Graphics g){
