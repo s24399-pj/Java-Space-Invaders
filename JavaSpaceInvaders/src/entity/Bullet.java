@@ -19,9 +19,9 @@ public class Bullet extends Entity{
     }
 
     public void startingValues(){
-        this.x=100;
-        this.y=200;
-        this.speed=7;
+        this.x=1000;
+        this.y=2000;
+        this.speed=6;
     }
 
     public void setToCertainPlace(int x,int y){

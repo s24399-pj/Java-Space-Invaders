@@ -6,6 +6,8 @@ import entity.Player;
 
 import javax.swing.*;
 import java.awt.*;
+import java.util.ArrayList;
+import java.util.List;
 
 public class Screen extends JPanel implements Runnable{
 
@@ -21,12 +23,23 @@ public class Screen extends JPanel implements Runnable{
     Thread gameThread;
 
     KeyHandler keyHand=new KeyHandler();
+
+    public List<Alien> alienList=new ArrayList<>();
+
+    void populateAlienList(){
+        int cordX=25;
+        int cordY=25;
+        for (int i = 0; i < 10; i++)
+        {
+            // Generate or get variables
+            alienList.add(i, new Alien(this,keyHand,cordX,cordY));
+            cordX+=75;
+
+        }
+    }
+
     Player player=new Player(this,keyHand);
     Bullet bullet=new Bullet(this,keyHand);
-
-    Alien alien=new Alien(this,keyHand);
-
-
 
     int FramesPerSecond=60;
 
@@ -49,6 +62,8 @@ public class Screen extends JPanel implements Runnable{
 
         double gameDrawInterval=1000000000/FramesPerSecond;
         double gameNextDrawTime=System.nanoTime()+gameDrawInterval;
+
+        populateAlienList();
 
         while(gameThread!=null){
             updater();
@@ -76,10 +91,14 @@ public class Screen extends JPanel implements Runnable{
     public void updater(){
         player.updater(screenWidth,screenHeight,tileSize,bullet);
         bullet.updater();
-        colisionDetector(player,alien,bullet);
+
+        for (int i = 0; i < 10; i++){
+            colisionDetector(alienList.get(i),bullet);
+        }
+
     }
 
-    public void colisionDetector(Player p,Alien a,Bullet b){
+    public void colisionDetector(Alien a,Bullet b){
         int alienmax_x=a.x+a.tileSize;
         int alienmin_x=a.x-a.tileSize;
         int alienmax_y=a.y+a.tileSize;
@@ -87,6 +106,7 @@ public class Screen extends JPanel implements Runnable{
 
         if(b.x>alienmin_x && b.x<alienmax_x && b.y>alienmin_y && b.y<alienmax_y){
             b.used=true;
+            a.x=3000;
         }
 
     }
@@ -96,9 +116,13 @@ public class Screen extends JPanel implements Runnable{
 
         Graphics2D g2=(Graphics2D)g;
 
-        alien.draw(g2);
+        for (int i = 0; i < 10; i++){
+            alienList.get(i).draw(g2);
+        }
+
         bullet.draw(g2);
         player.draw(g2,tileSize);
+
 
         g2.dispose();
 
