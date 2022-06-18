@@ -9,6 +9,8 @@ public class Player extends Entity{
     Screen gameScreen;
     KeyHandler keyHand;
 
+    public boolean shoot;
+
     public Player(Screen gameScreen , KeyHandler keyHand){
         this.gameScreen=gameScreen;
         this.keyHand=keyHand;
@@ -22,26 +24,29 @@ public class Player extends Entity{
         speed=4;
     }
 
-    public void updater(int screenWidth, int screenHeight, int tileSize){
-        if (keyHand.upActivated==true) {
+    public void updater(int screenWidth, int screenHeight, int tileSize,Bullet bullet){
+        if (keyHand.upActivated) {
             if(y-speed>0){
                 y-=speed;
             }
         }
-        else if (keyHand.downActivated==true){
+        else if (keyHand.downActivated){
             if(y+speed<screenHeight-tileSize) {
                 y += speed;
             }
         }
-        else if (keyHand.leftActivated==true){
+        else if (keyHand.leftActivated){
             if(x-speed>0) {
                 x -= speed;
             }
         }
-        else if (keyHand.rightActivated==true){
+        else if (keyHand.rightActivated){
             if(x+speed<screenWidth-tileSize) {
                 x += speed;
             }
+        }
+        else if(keyHand.spaceActivated){
+            bullet.setToCertainPlace(x,y);
         }
     }
 

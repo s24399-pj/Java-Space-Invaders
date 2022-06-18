@@ -1,5 +1,6 @@
 package main;
 
+import entity.Bullet;
 import entity.Player;
 
 import javax.swing.*;
@@ -20,6 +21,8 @@ public class Screen extends JPanel implements Runnable{
 
     KeyHandler keyHand=new KeyHandler();
     Player player=new Player(this,keyHand);
+    Bullet bullet=new Bullet(this,keyHand);
+
 
 
     int FramesPerSecond=60;
@@ -68,7 +71,8 @@ public class Screen extends JPanel implements Runnable{
     }
 
     public void updater(){
-        player.updater(screenWidth,screenHeight,tileSize);
+        player.updater(screenWidth,screenHeight,tileSize,bullet);
+        bullet.updater();
     }
 
     public void paintComponent(Graphics g){
@@ -76,6 +80,7 @@ public class Screen extends JPanel implements Runnable{
 
         Graphics2D g2=(Graphics2D)g;
 
+        bullet.draw(g2);
         player.draw(g2,tileSize);
 
         g2.dispose();

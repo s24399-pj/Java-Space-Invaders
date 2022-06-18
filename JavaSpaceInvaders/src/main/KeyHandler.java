@@ -5,7 +5,11 @@ import java.awt.event.KeyListener;
 
 public class KeyHandler implements KeyListener{
 
-    public boolean upActivated,downActivated,leftActivated,rightActivated;
+    public boolean upActivated;
+    public boolean downActivated;
+    public boolean leftActivated;
+    public boolean rightActivated;
+    public boolean spaceActivated;
 
     @Override
     public void keyTyped(KeyEvent e) {
@@ -28,6 +32,9 @@ public class KeyHandler implements KeyListener{
         if (keyCode==KeyEvent.VK_D){
             rightActivated=true;
         }
+        if (keyCode==KeyEvent.VK_SPACE){
+            spaceActivated=true;
+        }
 
     }
 
@@ -47,6 +54,9 @@ public class KeyHandler implements KeyListener{
         }
         if (keyCode==KeyEvent.VK_D){
             rightActivated=false;
+        }
+        if (keyCode==KeyEvent.VK_SPACE){
+            spaceActivated=false;
         }
     }
 }
