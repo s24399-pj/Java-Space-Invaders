@@ -1,5 +1,6 @@
 package main;
 
+import entity.Alien;
 import entity.Bullet;
 import entity.Player;
 
@@ -22,6 +23,8 @@ public class Screen extends JPanel implements Runnable{
     KeyHandler keyHand=new KeyHandler();
     Player player=new Player(this,keyHand);
     Bullet bullet=new Bullet(this,keyHand);
+
+    Alien alien=new Alien(this,keyHand);
 
 
 
@@ -73,6 +76,19 @@ public class Screen extends JPanel implements Runnable{
     public void updater(){
         player.updater(screenWidth,screenHeight,tileSize,bullet);
         bullet.updater();
+        colisionDetector(player,alien,bullet);
+    }
+
+    public void colisionDetector(Player p,Alien a,Bullet b){
+        int alienmax_x=a.x+a.tileSize;
+        int alienmin_x=a.x-a.tileSize;
+        int alienmax_y=a.y+a.tileSize;
+        int alienmin_y=a.y-a.tileSize;
+
+        if(b.x>alienmin_x && b.x<alienmax_x && b.y>alienmin_y && b.y<alienmax_y){
+            b.used=true;
+        }
+
     }
 
     public void paintComponent(Graphics g){
@@ -80,6 +96,7 @@ public class Screen extends JPanel implements Runnable{
 
         Graphics2D g2=(Graphics2D)g;
 
+        alien.draw(g2);
         bullet.draw(g2);
         player.draw(g2,tileSize);
 

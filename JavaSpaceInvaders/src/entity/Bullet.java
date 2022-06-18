@@ -9,6 +9,7 @@ public class Bullet extends Entity{
     Screen gameScreen;
     KeyHandler keyHand;
     public final int bulletSize=20;
+    public boolean used=false;
 
 
     public Bullet(Screen gameScreen , KeyHandler keyHand){
@@ -34,12 +35,18 @@ public class Bullet extends Entity{
     }
 
     public void updater(){
-        y-=speed;
+        if(!used){
+            y-=speed;
+        }
+        else{
+            getFromBoard();
+            this.used=false;
+        }
     }
 
 
     public void draw(Graphics2D g2){
-        g2.setColor(Color.white);
+        g2.setColor(Color.yellow);
         g2.fillRect(x,y,bulletSize,bulletSize);
     }
 }
