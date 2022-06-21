@@ -8,30 +8,42 @@ import java.awt.*;
 public class Bullet extends Entity{
     Screen gameScreen;
     KeyHandler keyHand;
-    public final int bulletSize=20;
-    public boolean used=false;
+    public final int bulletSize=10;
+    public boolean used;
+    public int bullet_level;
 
 
     public Bullet(Screen gameScreen , KeyHandler keyHand){
         this.gameScreen=gameScreen;
         this.keyHand=keyHand;
+        getFromBoard();
         startingValues();
     }
 
     public void startingValues(){
-        this.x=1000;
-        this.y=2000;
-        this.speed=6;
+        this.x=-100;
+        this.y=-100;
+        this.speed=0;
+        this.bullet_level=1;
+        this.used=false;
     }
 
     public void setToCertainPlace(int x,int y){
-        this.x=x;
-        this.y=y;
+        if(speed==0 || this.y<0){
+            this.x=x;
+            this.y=y;
+            this.speed=2*bullet_level+3;
+        }
+    }
+
+    public void levelUpUserGun(){
+        this.bullet_level+=1;
     }
 
     public void getFromBoard(){
-        x=1000;
-        y=1000;
+        this.x=-100;
+        this.y=-100;
+        this.speed=0;
     }
 
     public void updater(){

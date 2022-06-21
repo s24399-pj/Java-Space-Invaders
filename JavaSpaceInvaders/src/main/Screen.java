@@ -27,21 +27,27 @@ public class Screen extends JPanel implements Runnable{
     public List<Alien> alienList=new ArrayList<>();
 
     void populateAlienList(){
-        int cordX=25;
+        int cordX=30;
         int cordY=25;
-        for (int i = 0; i < 10; i++)
-        {
-            // Generate or get variables
-            alienList.add(i, new Alien(this,keyHand,cordX,cordY));
-            cordX+=75;
-
+        for (int j=0;j < alien_column;j++) {
+            for (int i = 0; i < alien_row; i++) {
+                alienList.add(i, new Alien(this, keyHand, cordX, cordY));
+                cordX += 75;
+            }
+            cordY += 75;
+            cordX=30;
         }
     }
 
     Player player=new Player(this,keyHand);
     Bullet bullet=new Bullet(this,keyHand);
 
+    int alien_row=10;
+    int alien_column=3;
+
     int FramesPerSecond=60;
+
+
 
 
     public Screen(){
@@ -92,13 +98,15 @@ public class Screen extends JPanel implements Runnable{
         player.updater(screenWidth,screenHeight,tileSize,bullet);
         bullet.updater();
 
-        for (int i = 0; i < 10; i++){
-            colisionDetector(alienList.get(i),bullet);
+        for (int i = 0; i < alien_row*alien_column; i++){
+            colisionDetector(player,alienList.get(i),bullet);
         }
 
     }
 
-    public void colisionDetector(Alien a,Bullet b){
+
+
+    public void colisionDetector(Player p,Alien a,Bullet b){
         int alienmax_x=a.x+a.tileSize;
         int alienmin_x=a.x-a.tileSize;
         int alienmax_y=a.y+a.tileSize;
@@ -107,6 +115,11 @@ public class Screen extends JPanel implements Runnable{
         if(b.x>alienmin_x && b.x<alienmax_x && b.y>alienmin_y && b.y<alienmax_y){
             b.used=true;
             a.x=3000;
+            p.score+=10;
+            if (p.score%100==0){
+                b.levelUpUserGun();
+                System.out.println("Wou");
+            }
         }
 
     }
@@ -116,7 +129,7 @@ public class Screen extends JPanel implements Runnable{
 
         Graphics2D g2=(Graphics2D)g;
 
-        for (int i = 0; i < 10; i++){
+        for (int i = 0; i < alien_row*alien_column; i++){
             alienList.get(i).draw(g2);
         }
 

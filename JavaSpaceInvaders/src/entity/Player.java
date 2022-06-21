@@ -9,7 +9,7 @@ public class Player extends Entity{
     Screen gameScreen;
     KeyHandler keyHand;
 
-    public boolean shoot;
+    public int score;
 
     public Player(Screen gameScreen , KeyHandler keyHand){
         this.gameScreen=gameScreen;
@@ -21,7 +21,7 @@ public class Player extends Entity{
     public void setDefaultValues(){
         x=100;
         y=100;
-        speed=4;
+        speed=3;
     }
 
     public void updater(int screenWidth, int screenHeight, int tileSize,Bullet bullet){
@@ -46,7 +46,7 @@ public class Player extends Entity{
             }
         }
         else if(keyHand.spaceActivated){
-            bullet.setToCertainPlace(x,y);
+            bullet.setToCertainPlace(x+10,y);
         }
     }
 
