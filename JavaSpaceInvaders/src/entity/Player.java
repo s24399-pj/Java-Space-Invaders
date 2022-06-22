@@ -3,7 +3,10 @@ package entity;
 import main.KeyHandler;
 import main.Screen;
 
+import javax.imageio.ImageIO;
 import java.awt.*;
+import java.awt.image.BufferedImage;
+import java.io.IOException;
 
 public class Player extends Entity{
     Screen gameScreen;
@@ -16,12 +19,13 @@ public class Player extends Entity{
         this.keyHand=keyHand;
 
         setDefaultValues();
+        getPlayerImage("/images/ship.png");
     }
 
     public void setDefaultValues(){
-        x=100;
-        y=100;
-        speed=3;
+        x=200;
+        y=300;
+        speed=2;
     }
 
     public void updater(int screenWidth, int screenHeight, int tileSize,Bullet bullet){
@@ -46,13 +50,12 @@ public class Player extends Entity{
             }
         }
         else if(keyHand.spaceActivated){
-            bullet.setToCertainPlace(x+10,y);
+            bullet.setToCertainPlace(x+20,y);
         }
     }
 
     public void draw(Graphics2D g2,int tileSize){
-        g2.setColor(Color.white);
-        g2.fillRect(x,y,tileSize,tileSize);
+        g2.drawImage(mainPhoto,x,y,tileSize,tileSize,null);
     }
 
 }

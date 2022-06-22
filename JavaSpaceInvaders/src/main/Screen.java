@@ -20,6 +20,8 @@ public class Screen extends JPanel implements Runnable{
     public final int screenWidth=tileSize*maxScreenCol;
     public final int screenHeight=tileSize*maxScreenRow;
 
+
+
     Thread gameThread;
 
     KeyHandler keyHand=new KeyHandler();
@@ -66,6 +68,8 @@ public class Screen extends JPanel implements Runnable{
     @Override
     public void run() {
 
+
+
         double gameDrawInterval=1000000000/FramesPerSecond;
         double gameNextDrawTime=System.nanoTime()+gameDrawInterval;
 
@@ -107,10 +111,10 @@ public class Screen extends JPanel implements Runnable{
 
 
     public void colisionDetector(Player p,Alien a,Bullet b){
-        int alienmax_x=a.x+a.tileSize;
-        int alienmin_x=a.x-a.tileSize;
-        int alienmax_y=a.y+a.tileSize;
-        int alienmin_y=a.y-a.tileSize;
+        int alienmax_x=a.x+a.tileSizeWidth;
+        int alienmin_x=a.x-a.tileSizeWidth;
+        int alienmax_y=a.y+a.tileSizeHeight;
+        int alienmin_y=a.y-a.tileSizeHeight;
 
         if(b.x>alienmin_x && b.x<alienmax_x && b.y>alienmin_y && b.y<alienmax_y){
             b.used=true;

@@ -10,7 +10,8 @@ public class Alien extends Entity{
     Screen gameScreen;
     KeyHandler keyHand;
 
-    public int tileSize=40;
+    public int tileSizeHeight=30;
+    public int tileSizeWidth=40;
     public int alienLevel=1;
 
 
@@ -20,11 +21,11 @@ public class Alien extends Entity{
         this.x=x;
         this.y=y;
 
+        getPlayerImage("/images/alien.png");
     }
 
     public void draw(Graphics2D g2){
-        g2.setColor(Color.blue);
-        g2.fillRect(x,y,tileSize,tileSize);
+        g2.drawImage(mainPhoto,x,y,tileSizeWidth,tileSizeHeight,null);
     }
 
 }
