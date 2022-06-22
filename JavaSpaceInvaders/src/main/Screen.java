@@ -44,11 +44,18 @@ public class Screen extends JPanel implements Runnable{
     Player player=new Player(this,keyHand);
     Bullet bullet=new Bullet(this,keyHand);
 
-    int alien_row=10;
+    int alien_row=8;
     int alien_column=3;
 
     int FramesPerSecond=60;
 
+    public void MoveAlien(Alien alien,String direction){
+        if(direction=="right"){
+            alien.x+=1;
+        }else{
+            alien.x-=1;
+        }
+    }
 
 
 
@@ -75,9 +82,13 @@ public class Screen extends JPanel implements Runnable{
 
         populateAlienList();
 
+        int counter=0;
+
         while(gameThread!=null){
-            updater();
+            updater(counter);
             repaint();
+
+            counter+=1;
 
             try {
                 double remainingTime=gameNextDrawTime-System.nanoTime();
@@ -98,15 +109,27 @@ public class Screen extends JPanel implements Runnable{
         }
     }
 
-    public void updater(){
+    public String direction="left";
+
+    public void updater(int counter){
         player.updater(screenWidth,screenHeight,tileSize,bullet);
         bullet.updater();
 
+        if(counter%120==0){
+            if (direction=="right"){
+                direction="left";
+            }else{
+                direction="right";
+            }
+        }
+
         for (int i = 0; i < alien_row*alien_column; i++){
             colisionDetector(player,alienList.get(i),bullet);
+            MoveAlien(alienList.get(i),direction);
         }
 
     }
+
 
 
 
