@@ -15,9 +15,8 @@ public class Bullet extends Entity{
     public int damage;
 
 
-    public Bullet(Screen gameScreen , KeyHandler keyHand){
+    public Bullet(Screen gameScreen){
         this.gameScreen=gameScreen;
-        this.keyHand=keyHand;
         getFromBoard();
         startingValues();
     }

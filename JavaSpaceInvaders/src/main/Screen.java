@@ -33,9 +33,9 @@ public class Screen extends JPanel implements Runnable{
 
     
     Player player=new Player(this,keyHand);
-    Bullet bullet=new Bullet(this,keyHand);
+    Bullet bullet=new Bullet(this);
 
-    Score score=new Score(this,keyHand);
+    Score score=new Score(this);
 
     int alien_row=8;
     int alien_column=3;
@@ -55,7 +55,7 @@ public class Screen extends JPanel implements Runnable{
         int cordY=25;
         for (int j=0;j < alien_column;j++) {
             for (int i = 0; i < alien_row; i++) {
-                alienList.add(i, new Alien(this, keyHand, cordX, cordY));
+                alienList.add(i, new Alien(this, cordX, cordY));
                 cordX += 75;
             }
             cordY += 50;

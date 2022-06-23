@@ -8,13 +8,11 @@ import java.awt.*;
 public class Score{
 
     Screen gameScreen;
-    KeyHandler keyHand;
     public int x;
     public int y;
 
-    public Score(Screen gameScreen , KeyHandler keyHand){
+    public Score(Screen gameScreen){
         this.gameScreen=gameScreen;
-        this.keyHand=keyHand;
         this.setDefaultValues();
     }
 
