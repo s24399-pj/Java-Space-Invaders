@@ -5,8 +5,10 @@ import entity.Bullet;
 import entity.Player;
 import entity.Score;
 
+import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
+import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -29,7 +31,26 @@ public class Screen extends JPanel implements Runnable{
 
     public List<Alien> alienList=new ArrayList<>();
 
-    void populateAlienList(){
+    
+    Player player=new Player(this,keyHand);
+    Bullet bullet=new Bullet(this,keyHand);
+
+    Score score=new Score(this,keyHand);
+
+    int alien_row=8;
+    int alien_column=3;
+    public String direction="left";
+    int FramesPerSecond=60;
+
+    public void MoveAlien(Alien alien,String direction){
+        if(direction=="right"){
+            alien.x+=1;
+        }else{
+            alien.x-=1;
+        }
+    }
+
+    public void populateAlienList(){
         int cordX=30;
         int cordY=25;
         for (int j=0;j < alien_column;j++) {
@@ -41,27 +62,7 @@ public class Screen extends JPanel implements Runnable{
             cordX=30;
         }
     }
-
-    Player player=new Player(this,keyHand);
-    Bullet bullet=new Bullet(this,keyHand);
-
-    Score score=new Score(this,keyHand);
-
-    int alien_row=8;
-    int alien_column=3;
-
-    int FramesPerSecond=60;
-
-    public void MoveAlien(Alien alien,String direction){
-        if(direction=="right"){
-            alien.x+=1;
-        }else{
-            alien.x-=1;
-        }
-    }
-
-
-
+    
     public Screen(){
         this.setPreferredSize(new Dimension(screenWidth,screenHeight));
         this.setBackground(Color.black);
@@ -77,19 +78,16 @@ public class Screen extends JPanel implements Runnable{
 
     @Override
     public void run() {
-
         double gameDrawInterval=1000000000/FramesPerSecond;
         double gameNextDrawTime=System.nanoTime()+gameDrawInterval;
-
+        int timeUnit=0;
         populateAlienList();
 
-        int counter=0;
-
         while(gameThread!=null){
-            updater(counter);
+            updater(timeUnit);
             repaint();
 
-            counter+=1;
+            timeUnit+=1;
 
             try {
                 double remainingTime=gameNextDrawTime-System.nanoTime();
@@ -110,13 +108,12 @@ public class Screen extends JPanel implements Runnable{
         }
     }
 
-    public String direction="left";
-
-    public void updater(int counter){
+    public void updater(int timeUnit){
         player.updater(screenWidth,screenHeight,tileSize,bullet);
         bullet.updater();
+        int aliensDeadCounter=0;
 
-        if(counter%120==0){
+        if(timeUnit%120==0){
             if (direction=="right"){
                 direction="left";
             }else{
@@ -125,10 +122,18 @@ public class Screen extends JPanel implements Runnable{
         }
 
         for (int i = 0; i < alien_row*alien_column; i++){
-            colisionDetector(player,alienList.get(i),bullet);
-            MoveAlien(alienList.get(i),direction);
+            if(alienList.get(i).dead){
+                aliensDeadCounter+=1;
+            }else{
+                colisionDetector(player,alienList.get(i),bullet);
+                MoveAlien(alienList.get(i),direction);
+            }
         }
 
+        if (aliensDeadCounter==alien_row*alien_column){
+            alienList.clear();
+            populateAlienList();
+        }
     }
 
 
@@ -136,15 +141,20 @@ public class Screen extends JPanel implements Runnable{
 
     public void colisionDetector(Player p,Alien a,Bullet b){
         int alienmax_x=a.x+a.tileSizeWidth;
-        int alienmin_x=a.x-a.tileSizeWidth;
+        int alienmin_x=a.x;
         int alienmax_y=a.y+a.tileSizeHeight;
-        int alienmin_y=a.y-a.tileSizeHeight;
+        int alienmin_y=a.y;
 
         if(b.x+b.bulletSizeWidth>alienmin_x && b.x+b.bulletSizeWidth<alienmax_x){
             if(b.y+b.bulletSizeHeight>alienmin_y && b.y+b.bulletSizeHeight<alienmax_y){
-                b.used=true;
-                a.x=3000;
+                a.healthLevel-=b.damage;
+                if(a.healthLevel<=0){
+                    a.dead=true;
+                    a.x=3000;
+                }
                 p.score+=10;
+                b.used=true;
+
                 if (p.score%100==0){
                     b.levelUpUserGun();
                 }
@@ -164,8 +174,7 @@ public class Screen extends JPanel implements Runnable{
 
         bullet.draw(g2);
         player.draw(g2,tileSize);
-
-        score.draw(g2,player.score);
+        score.draw(g2,player.score,bullet.damage);
         g2.dispose();
 
     }

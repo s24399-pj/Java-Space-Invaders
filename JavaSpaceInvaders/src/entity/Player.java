@@ -11,7 +11,6 @@ import java.io.IOException;
 public class Player extends Entity{
     Screen gameScreen;
     KeyHandler keyHand;
-
     public int score;
 
     public Player(Screen gameScreen , KeyHandler keyHand){
@@ -23,9 +22,11 @@ public class Player extends Entity{
     }
 
     public void setDefaultValues(){
-        x=200;
-        y=300;
-        speed=2;
+        this.x=200;
+        this.y=450;
+        this.speed=2;
+        this.score=0;
+        this.healthLevel=100;
     }
 
     public void updater(int screenWidth, int screenHeight, int tileSize,Bullet bullet){

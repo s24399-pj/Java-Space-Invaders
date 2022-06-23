@@ -12,7 +12,7 @@ public class Alien extends Entity{
 
     public int tileSizeHeight=30;
     public int tileSizeWidth=40;
-    public int alienLevel=1;
+    public boolean dead=false;
 
 
     public Alien(Screen gameScreen , KeyHandler keyHand,int x,int y){
@@ -21,7 +21,12 @@ public class Alien extends Entity{
         this.x=x;
         this.y=y;
 
+        setDefaultValues();
         getPlayerImage("/images/alien.png");
+    }
+
+    public void setDefaultValues(){
+        this.healthLevel=20;
     }
 
     public void draw(Graphics2D g2){
