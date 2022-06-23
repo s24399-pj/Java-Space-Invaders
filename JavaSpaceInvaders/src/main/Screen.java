@@ -3,6 +3,7 @@ package main;
 import entity.Alien;
 import entity.Bullet;
 import entity.Player;
+import entity.Score;
 
 import javax.swing.*;
 import java.awt.*;
@@ -36,13 +37,15 @@ public class Screen extends JPanel implements Runnable{
                 alienList.add(i, new Alien(this, keyHand, cordX, cordY));
                 cordX += 75;
             }
-            cordY += 75;
+            cordY += 50;
             cordX=30;
         }
     }
 
     Player player=new Player(this,keyHand);
     Bullet bullet=new Bullet(this,keyHand);
+
+    Score score=new Score(this,keyHand);
 
     int alien_row=8;
     int alien_column=3;
@@ -74,8 +77,6 @@ public class Screen extends JPanel implements Runnable{
 
     @Override
     public void run() {
-
-
 
         double gameDrawInterval=1000000000/FramesPerSecond;
         double gameNextDrawTime=System.nanoTime()+gameDrawInterval;
@@ -139,13 +140,14 @@ public class Screen extends JPanel implements Runnable{
         int alienmax_y=a.y+a.tileSizeHeight;
         int alienmin_y=a.y-a.tileSizeHeight;
 
-        if(b.x>alienmin_x && b.x<alienmax_x && b.y>alienmin_y && b.y<alienmax_y){
-            b.used=true;
-            a.x=3000;
-            p.score+=10;
-            if (p.score%100==0){
-                b.levelUpUserGun();
-                System.out.println("Wou");
+        if(b.x+b.bulletSizeWidth>alienmin_x && b.x+b.bulletSizeWidth<alienmax_x){
+            if(b.y+b.bulletSizeHeight>alienmin_y && b.y+b.bulletSizeHeight<alienmax_y){
+                b.used=true;
+                a.x=3000;
+                p.score+=10;
+                if (p.score%100==0){
+                    b.levelUpUserGun();
+                }
             }
         }
 
@@ -163,7 +165,7 @@ public class Screen extends JPanel implements Runnable{
         bullet.draw(g2);
         player.draw(g2,tileSize);
 
-
+        score.draw(g2,player.score);
         g2.dispose();
 
     }

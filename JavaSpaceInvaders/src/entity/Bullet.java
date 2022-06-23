@@ -8,7 +8,8 @@ import java.awt.*;
 public class Bullet extends Entity{
     Screen gameScreen;
     KeyHandler keyHand;
-    public final int bulletSize=10;
+    public final int bulletSizeWidth=4;
+    public final int bulletSizeHeight=8;
     public boolean used;
     public int bullet_level;
 
@@ -59,6 +60,6 @@ public class Bullet extends Entity{
 
     public void draw(Graphics2D g2){
         g2.setColor(Color.yellow);
-        g2.fillRect(x,y,bulletSize,bulletSize);
+        g2.fillRect(x,y,bulletSizeWidth,bulletSizeHeight);
     }
 }

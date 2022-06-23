@@ -1,7 +1,6 @@
 package main;
 
 import javax.swing.*;
-import java.awt.*;
 
 public class Main {
 
@@ -10,8 +9,9 @@ public class Main {
         Screen screen=new Screen();
 
         JFrame window = new JFrame();
+
         window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        window.setResizable(false);
+        window.setResizable(true);
         window.setTitle("Space Invaders");
 
         window.add(screen);
